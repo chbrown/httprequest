@@ -22,14 +22,16 @@ var Request = (function () {
     function Request(method, url, responseType) {
         var _this = this;
         if (responseType === void 0) { responseType = ''; }
+        this.method = method;
+        this.url = url;
+        this.headers = [];
         this.xhr = new XMLHttpRequest();
-        this.xhr.open(method, url);
         this.xhr.responseType = responseType;
         this.xhr.onreadystatechange = function (event) {
             var readyState = _this.xhr.readyState;
             if (readyState == 2) {
                 var content_type = _this.xhr.getResponseHeader('content-type');
-                if (content_type == 'application/json') {
+                if (content_type.indexOf('application/json') === 0) {
                     _this.xhr.responseType = 'json';
                 }
             }
@@ -47,21 +49,29 @@ var Request = (function () {
             _this.callback(null, _this.xhr.response);
         };
     }
+    /**
+    Add a header-value pair to be set on the XMLHttpRequest once it is opened.
+    */
+    Request.prototype.addHeader = function (header, value) {
+        this.headers.push([header, value]);
+        return this;
+    };
     Request.prototype.send = function (callback) {
+        return this.sendData(undefined, callback);
+    };
+    Request.prototype.sendData = function (data, callback) {
+        var _this = this;
         this.callback = callback;
+        // delay opening until we actually need to so that custom event listeners
+        // can be added by the user
+        this.xhr.open(this.method, this.url);
+        this.headers.forEach(function (_a) {
+            var header = _a[0], value = _a[1];
+            return _this.xhr.setRequestHeader(header, value);
+        });
         try {
             // this might raise an error without even trying the server if we break
             // some kind of cross-origin request rule.
-            this.xhr.send();
-        }
-        catch (exc) {
-            setTimeout(function () { return callback(exc); }, 0);
-        }
-        return this;
-    };
-    Request.prototype.sendData = function (data, callback) {
-        this.callback = callback;
-        try {
             this.xhr.send(data);
         }
         catch (exc) {

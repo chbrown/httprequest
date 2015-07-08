@@ -20,20 +20,20 @@ new Request('POST', '/api/reservations').sendData({venue_id: 100}, (err, respons
 */
 export class Request {
   xhr: XMLHttpRequest;
+  headers: Array<[string, string]> = [];
   callback: RequestCallback;
   /**
   XMLHttpRequest doesn't expose method and url after setting them, so we need
   to keep track of them in the Request instance for error reporting purposes.
   */
-  constructor(method: string, url: string, responseType = '') {
+  constructor(private method: string, private url: string, responseType = '') {
     this.xhr = new XMLHttpRequest();
-    this.xhr.open(method, url);
     this.xhr.responseType = responseType;
     this.xhr.onreadystatechange = (event: Event) => {
       var readyState = this.xhr.readyState;
       if (readyState == 2) { // HEADERS_RECEIVED
         var content_type = this.xhr.getResponseHeader('content-type');
-        if (content_type == 'application/json') {
+        if (content_type.indexOf('application/json') === 0) {
           this.xhr.responseType = 'json';
         }
       }
@@ -51,21 +51,25 @@ export class Request {
       this.callback(null, this.xhr.response);
     };
   }
-  send(callback: RequestCallback): Request {
-    this.callback = callback;
-    try {
-      // this might raise an error without even trying the server if we break
-      // some kind of cross-origin request rule.
-      this.xhr.send();
-    }
-    catch (exc) {
-      setTimeout(() => callback(exc), 0);
-    }
+  /**
+  Add a header-value pair to be set on the XMLHttpRequest once it is opened.
+  */
+  addHeader(header: string, value: string): Request {
+    this.headers.push([header, value]);
     return this;
+  }
+  send(callback: RequestCallback): Request {
+    return this.sendData(undefined, callback);
   }
   sendData(data: any, callback: RequestCallback): Request {
     this.callback = callback;
+    // delay opening until we actually need to so that custom event listeners
+    // can be added by the user
+    this.xhr.open(this.method, this.url);
+    this.headers.forEach(([header, value]) => this.xhr.setRequestHeader(header, value));
     try {
+      // this might raise an error without even trying the server if we break
+      // some kind of cross-origin request rule.
       this.xhr.send(data);
     }
     catch (exc) {
