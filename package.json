@@ -1,0 +1,17 @@
+{
+  "name": "httprequest",
+  "version": "0.0.0",
+  "description": "XMLHttpRequest wrapper",
+  "keywords": [
+    "xhr",
+    "http",
+    "https",
+    "browser",
+    "client"
+  ],
+  "homepage": "https://github.com/chbrown/httprequest",
+  "repository": "git://github.com/chbrown/httprequest.git",
+  "bugs": "https://github.com/chbrown/httprequest/issues",
+  "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
+  "license": "MIT"
+}
