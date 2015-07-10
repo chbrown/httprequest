@@ -34,6 +34,9 @@ var Request = (function () {
                 if (content_type.indexOf('application/json') === 0) {
                     _this.xhr.responseType = 'json';
                 }
+                else if (content_type.indexOf('text/xml') === 0) {
+                    _this.xhr.responseType = 'document';
+                }
             }
         };
         this.xhr.onerror = function (event) {
@@ -58,6 +61,10 @@ var Request = (function () {
     };
     Request.prototype.send = function (callback) {
         return this.sendData(undefined, callback);
+    };
+    Request.prototype.sendJSON = function (object, callback) {
+        this.headers.push(['Content-Type', 'application/json']);
+        return this.sendData(JSON.stringify(object), callback);
     };
     Request.prototype.sendData = function (data, callback) {
         var _this = this;

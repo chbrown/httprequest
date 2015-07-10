@@ -36,6 +36,9 @@ export class Request {
         if (content_type.indexOf('application/json') === 0) {
           this.xhr.responseType = 'json';
         }
+        else if (content_type.indexOf('text/xml') === 0) {
+          this.xhr.responseType = 'document';
+        }
       }
     };
     this.xhr.onerror = (event: Event) => {
@@ -60,6 +63,10 @@ export class Request {
   }
   send(callback: RequestCallback): Request {
     return this.sendData(undefined, callback);
+  }
+  sendJSON(object: any, callback: RequestCallback): Request {
+    this.headers.push(['Content-Type', 'application/json']);
+    return this.sendData(JSON.stringify(object), callback);
   }
   sendData(data: any, callback: RequestCallback): Request {
     this.callback = callback;
