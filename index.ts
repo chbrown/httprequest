@@ -1,4 +1,6 @@
-interface RequestCallback {
+//// export module httprequest {
+
+export interface RequestCallback {
   (error: Error, response?: any): void;
 }
 
@@ -85,3 +87,5 @@ export class Request {
     return this;
   }
 }
+
+//// }

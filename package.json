@@ -13,5 +13,8 @@
   "repository": "git://github.com/chbrown/httprequest.git",
   "bugs": "https://github.com/chbrown/httprequest/issues",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "*"
+  }
 }

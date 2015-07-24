@@ -1,3 +1,4 @@
+//// export module httprequest {
 var NetworkError = (function () {
     function NetworkError(method, url) {
         this.name = 'NetworkError';
@@ -89,3 +90,4 @@ var Request = (function () {
     return Request;
 })();
 exports.Request = Request;
+//// }
