@@ -1,6 +1,6 @@
 {
   "name": "httprequest",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "XMLHttpRequest wrapper",
   "keywords": [
     "xhr",
