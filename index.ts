@@ -26,7 +26,9 @@ export class Request {
   XMLHttpRequest doesn't expose method and url after setting them, so we need
   to keep track of them in the Request instance for error reporting purposes.
   */
-  constructor(private method: string, private url: string, responseType = '') {
+  constructor(private method: string,
+              private url: string,
+              responseType: XMLHttpRequestResponseType = '') {
     this.xhr = new XMLHttpRequest()
     this.xhr.responseType = responseType
     this.xhr.onreadystatechange = (event: Event) => {
