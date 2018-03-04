@@ -18,6 +18,9 @@
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "next"
+    "typescript": "^2.7.2"
+  },
+  "scripts": {
+    "prepare": "tsc -d"
   }
 }
