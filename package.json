@@ -10,12 +10,9 @@
     "client"
   ],
   "homepage": "https://github.com/chbrown/httprequest",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chbrown/httprequest.git"
-  },
+  "repository": "git://github.com/chbrown/httprequest.git",
   "bugs": "https://github.com/chbrown/httprequest/issues",
-  "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
+  "author": "Christopher Brown <io@henrian.com>",
   "license": "MIT",
   "devDependencies": {
     "typescript": "^2.7.2"
