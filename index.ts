@@ -1,10 +1,8 @@
 export type RequestCallback = (error: Error, response?: any) => void
 
-export class NetworkError implements Error {
-  name = 'NetworkError'
-  public message: string
+export class NetworkError extends Error {
   constructor(method: string, url: string) {
-    this.message = `${this.name} with request: ${method} ${url}`
+    super(`NetworkError with request: ${method} ${url}`)
   }
 }
 
