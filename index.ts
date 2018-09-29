@@ -1,6 +1,4 @@
-export interface RequestCallback {
-  (error: Error, response?: any): void
-}
+export type RequestCallback = (error: Error, response?: any) => void
 
 export class NetworkError implements Error {
   name = 'NetworkError'
@@ -32,9 +30,9 @@ export class Request {
     this.xhr = new XMLHttpRequest()
     this.xhr.responseType = responseType
     this.xhr.onreadystatechange = (event: Event) => {
-      var readyState = this.xhr.readyState
+      const readyState = this.xhr.readyState
       if (readyState == 2) { // HEADERS_RECEIVED
-        var content_type = this.xhr.getResponseHeader('content-type')
+        const content_type = this.xhr.getResponseHeader('content-type')
         if (content_type.indexOf('application/json') === 0) {
           this.xhr.responseType = 'json'
         }
@@ -50,7 +48,7 @@ export class Request {
     //   since onload will not be called if there is an error.
     this.xhr.onload = (event: Event) => {
       if (this.xhr.status >= 400) {
-        var error = new Error(this.xhr.response)
+        const error = new Error(this.xhr.response)
         return this.callback(error)
       }
       this.callback(null, this.xhr.response)
